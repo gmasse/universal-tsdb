@@ -1,6 +1,9 @@
 # universal-tsdb
 A Universal Time-Series Database Python Client (InfluxDB, Warp10, ...)
 
+[![Build Status](https://travis-ci.com/gmasse/universal-tsdb.svg?branch=master)](https://travis-ci.com/gmasse/universal-tsdb)
+[![PyPI](https://img.shields.io/pypi/v/universal-tsdb?color=brightgreen)](https://pypi.org/project/universal-tsdb/)
+![PyPI - Status](https://img.shields.io/pypi/status/universal-tsdb)
 
 ## Introduction
 This project aims to abstract your Time-Series backend, keeping your code as agnostic as possible.
