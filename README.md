@@ -15,9 +15,23 @@ Some examples:
 
 ## Quickstart
 
+### Installation
+```bash
+$ pip install universal-tsdb
+```
+```python
+>>> from universal_tsdb import Client, Ingester
+>>> backend = Client('influx', 'http://localhost:8086', database='test')
+>>> series = Ingester(backend)
+>>> series.append(1585934895000, measurement='data', field1=42.0)
+>>> series.payload()
+'data field1=42.0 1585934895000000000\n'
+>>> series.commit()
+```
+
 ### InfluxDB
 ```python
-from universal-tsdb import Client, Ingester
+from universal_tsdb import Client, Ingester
 
 backend = Client('influx', 'http://localhost:8086', database='metrics',
                  backend_username='user', backend_password='passwd')
@@ -29,18 +43,18 @@ series.commit()
 The code above will generate a data payload based on InfluxDB line protocol
 and send it via a HTTP(S) request.
 ```
-> POST /write?db=metrics&u=user&p=passwd HTTP/1.1
-> Host: localhost:8086
->
-> mes field1=42.0 1585934895000000000
-> mes,tag1=value1 field1=43.4 field2="value" 1585934896000000000
+POST /write?db=metrics&u=user&p=passwd HTTP/1.1
+Host: localhost:8086
+
+mes field1=42.0 1585934895000000000
+mes,tag1=value1 field1=43.4 field2="value" 1585934896000000000
 ```
 
 ### Warp10
 ```python
-from universal-tsdb import Client, Ingester
+from universal_tsdb import Client, Ingester
 
-backend = Client('warp10', token='WRITING_TOKEN_ABCDEF0123456789')
+backend = Client('warp10', 'http://localhost/api/v0', token='WRITING_TOKEN_ABCDEF0123456789')
 series = Ingester(backend)
 series.append(1585934895000, field1=42.0)
 series.append(1585934896000, tags={'tag1':'value1'}, field1=43.4, field2='value')
@@ -49,13 +63,13 @@ series.commit()
 The code above will generate a data payload based on Warp10 GTS format
 and send it via a HTTP(S) request.
 ```
-> POST /api/v0/update HTTP/1.1
-> Host: localhost
-> X-Warp10-Token: WRITING_TOKEN_ABCDEF0123456789
->
-> 1585934895000000// field1{} 42.0
-> 1585934896000000// field1{tag1=value1} 42.0
-> 1585934896000000// field2{tag1=value1} 'value'
+POST /api/v0/update HTTP/1.1
+Host: localhost
+X-Warp10-Token: WRITING_TOKEN_ABCDEF0123456789
+
+1585934895000000// field1{} 42.0
+1585934896000000// field1{tag1=value1} 42.0
+1585934896000000// field2{tag1=value1} 'value'
 ```
 
 
