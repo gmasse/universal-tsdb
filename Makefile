@@ -37,13 +37,12 @@ update: venv
 	${PYTHON} -m pip install -e '.[dev]'
 
 test: venv update
-	${PYTHON} -m pytest -v -x
+	${PYTHON} -m pytest
 
 lint: venv
 	${PYTHON} -m pylint universal_tsdb tests
 
-all: lint test
-	${PYTHON} -m pip install -e '.[dev]'
+all: update lint test
 
 build: venv
 	${PYTHON} -m pip install -U setuptools wheel

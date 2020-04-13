@@ -8,3 +8,5 @@ install:
 script:
   - make all
   - make clean
+after_success:
+  - test $TRAVIS_BRANCH = "master" -o $TRAVIS_BRANCH = "dev" && bash <(curl -s https://codecov.io/bash)
